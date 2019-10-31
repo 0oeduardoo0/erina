@@ -1,0 +1,278 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Handler &#8212; Erina (messenger chabot)  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Response" href="response.html" />
+    <link rel="prev" title="Bot" href="bot.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="handler">
+<h1>Handler<a class="headerlink" href="#handler" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="erina.Handler">
+<em class="property">class </em><code class="descclassname">erina.</code><code class="descname">Handler</code><span class="sig-paren">(</span><em>msg</em>, <em>response</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_handler.html#Handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class to handlers.</p>
+<p>Handlers will receive the incoming messages and they will do
+something if they recognize some command.</p>
+<dl class="attribute">
+<dt id="erina.Handler.attachments">
+<code class="descname">attachments</code><a class="headerlink" href="#erina.Handler.attachments" title="Permalink to this definition">¶</a></dt>
+<dd><p>fbchat attachments array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="erina.Handler.type">
+<code class="descname">type</code><a class="headerlink" href="#erina.Handler.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>“text” or attachment type (“image”, “audio”…)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="erina.Handler.response">
+<code class="descname">response</code><a class="headerlink" href="#erina.Handler.response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Response instance (ready to send messages yey)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference internal" href="response.html#erina.Response" title="erina.Response">Response</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="erina.Handler.command">
+<code class="descname">command</code><a class="headerlink" href="#erina.Handler.command" title="Permalink to this definition">¶</a></dt>
+<dd><p>command instance of input (just command)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference internal" href="input.html#erina.Command" title="erina.Command">Command</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="erina.Handler.args">
+<code class="descname">args</code><a class="headerlink" href="#erina.Handler.args" title="Permalink to this definition">¶</a></dt>
+<dd><p>args instance of input (just arguments)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference internal" href="input.html#erina.Args" title="erina.Args">Args</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="erina.Handler.raw_input">
+<code class="descname">raw_input</code><a class="headerlink" href="#erina.Handler.raw_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>command instance containig full message input</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference internal" href="input.html#erina.Command" title="erina.Command">Command</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="erina.Handler.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>msg</em>, <em>response</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_handler.html#Handler.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Handler.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses the input message.</p>
+<p>Handler instaces are instanced by Bot class when
+some message are received. Cronjob also instaces
+Handler classes but it doesn’t gives msg and
+response params.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>msg</strong> (<em>Message</em>) – fbchat message  object</li>
+<li><strong>response</strong> (<a class="reference internal" href="response.html#erina.Response" title="erina.Response"><em>Response</em></a>) – Response object</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="erina.Handler.cron">
+<code class="descname">cron</code><span class="sig-paren">(</span><em>time</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_handler.html#Handler.cron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Handler.cron" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called by cronjob.</p>
+<p>If you register a handler as cronjob, cron will call this method
+every minute.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time</strong> (<em>datetime</em>) – datetime object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="erina.Handler.handle">
+<code class="descname">handle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_handler.html#Handler.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Handler.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called by Bot class.</p>
+<p>It must return True if the incoming command is recognized and executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="default-handler">
+<h2>Default Handler<a class="headerlink" href="#default-handler" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="erina.DefaultHandler">
+<em class="property">class </em><code class="descclassname">erina.</code><code class="descname">DefaultHandler</code><span class="sig-paren">(</span><em>msg</em>, <em>response</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_handler.html#DefaultHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.DefaultHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default handler.</p>
+<p>It will response if all the other registered handlers didn’t.</p>
+<dl class="method">
+<dt id="erina.DefaultHandler.handle">
+<code class="descname">handle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_handler.html#DefaultHandler.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.DefaultHandler.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default response to every single text message.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Erina (messenger chabot)</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="bot.html">Bot</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Handler</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#default-handler">Default Handler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="response.html">Response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notify_service.html">Notify service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notification.html">Notification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="attachments.html">Attachments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html">Command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html#args">Args</a></li>
+<li class="toctree-l1"><a class="reference internal" href="speech_recognition.html">SpeechRecognition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="log.html">Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="miscellaneous.html">Miscellaneous</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="bot.html" title="previous chapter">Bot</a></li>
+      <li>Next: <a href="response.html" title="next chapter">Response</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Eduardo Becerril <Edo>.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/handler.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

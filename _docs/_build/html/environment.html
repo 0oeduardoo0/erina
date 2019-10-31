@@ -1,0 +1,180 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Environment &#8212; Erina (messenger chabot)  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Command" href="input.html" />
+    <link rel="prev" title="Attachments" href="attachments.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="environment">
+<h1>Environment<a class="headerlink" href="#environment" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="erina.Environment">
+<em class="property">class </em><code class="descclassname">erina.</code><code class="descname">Environment</code><a class="reference internal" href="_modules/erina/_environment.html#Environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Environment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Erina’s environment vars.</p>
+<p>Env vars save some parameters like session cookies and
+configuration parameters. Env vars are saved on json files so
+each component of the system (even they are executed independently)
+can access them and modify them on-the-fly.</p>
+<dl class="method">
+<dt id="erina.Environment.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_environment.html#Environment.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Environment.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the json file path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="erina.Environment.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>var</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_environment.html#Environment.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Environment.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets an env var.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>var</strong> (<em>str</em>) – env var name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">var value (None if var is not set)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">mixed</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="erina.Environment.load">
+<code class="descname">load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_environment.html#Environment.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Environment.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads env vars (reads the json file)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="erina.Environment.set">
+<code class="descname">set</code><span class="sig-paren">(</span><em>var</em>, <em>val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_environment.html#Environment.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Environment.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets env var value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>var</strong> (<em>str</em>) – env var name</li>
+<li><strong>val</strong> – var value</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Erina (messenger chabot)</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="bot.html">Bot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handler.html">Handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="response.html">Response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notify_service.html">Notify service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notification.html">Notification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="attachments.html">Attachments</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html">Command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html#args">Args</a></li>
+<li class="toctree-l1"><a class="reference internal" href="speech_recognition.html">SpeechRecognition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="log.html">Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="miscellaneous.html">Miscellaneous</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="attachments.html" title="previous chapter">Attachments</a></li>
+      <li>Next: <a href="input.html" title="next chapter">Command</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Eduardo Becerril <Edo>.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/environment.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

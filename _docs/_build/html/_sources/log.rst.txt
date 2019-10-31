@@ -1,0 +1,4 @@
+Log
+===
+
+.. automethod:: erina.setLogFile

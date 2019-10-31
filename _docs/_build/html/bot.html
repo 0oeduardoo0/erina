@@ -1,0 +1,223 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Bot &#8212; Erina (messenger chabot)  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Handler" href="handler.html" />
+    <link rel="prev" title="Welcome to Erina (messenger chabot)’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="bot">
+<h1>Bot<a class="headerlink" href="#bot" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="erina.Bot">
+<em class="property">class </em><code class="descclassname">erina.</code><code class="descname">Bot</code><span class="sig-paren">(</span><em>credentials=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_bot.html#Bot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Bot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bot class.</p>
+<p>This is the main class of ‘erina’, it inherit ‘fbchat’ client class,
+this class inits fbchat and erina’s notify service socket. Also it will
+handle incoming messages from fbchat and parse the input messages and
+it will send them to handlers.</p>
+<dl class="method">
+<dt id="erina.Bot.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>credentials=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_bot.html#Bot.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Bot.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize some vars and fbchat login.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>credentials</strong> (<em>dict</em>) – ‘user’ and ‘passw’ to log into facebook</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="erina.Bot.addHandler">
+<code class="descname">addHandler</code><span class="sig-paren">(</span><em>handler</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_bot.html#Bot.addHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Bot.addHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a handler</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>handler</strong> (<a class="reference internal" href="handler.html#erina.Handler" title="erina.Handler"><em>Handler</em></a>) – handler to add</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="erina.Bot.listen">
+<code class="descname">listen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_bot.html#Bot.listen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Bot.listen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts fbchat and notify service listeners.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="erina.Bot.onMessage">
+<code class="descname">onMessage</code><span class="sig-paren">(</span><em>author_id</em>, <em>message_object</em>, <em>thread_id</em>, <em>thread_type</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_bot.html#Bot.onMessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Bot.onMessage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles incoming messages (from facebook).</p>
+<p>This function its called from fbchat when somebody sends a message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>author_id</strong> – The ID of the author</li>
+<li><strong>message_object</strong> (<em>Message</em>) – The message (As a <cite>Message</cite> object)</li>
+<li><strong>thread_id</strong> – Thread ID that the message was sent to.</li>
+<li><strong>thread_type</strong> (<em>ThreadType</em>) – Type of thread that the message was sent to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="erina.Bot.onNotify">
+<code class="descname">onNotify</code><span class="sig-paren">(</span><em>notification</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_bot.html#Bot.onNotify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Bot.onNotify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to handle incoming notifies.</p>
+<p>Notifies are messages to send to users in notify subscription list.
+This messages comes from notify service listener.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>type</strong> (<em>str</em>) – “text” for text messages and “image” for image messages</li>
+<li><strong>content</strong> (<em>str</em>) – message content.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="erina.Bot.setDefaultHandler">
+<code class="descname">setDefaultHandler</code><span class="sig-paren">(</span><em>handler</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/erina/_bot.html#Bot.setDefaultHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#erina.Bot.setDefaultHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set default request handler.</p>
+<p>Default handler is the handler which handle the input request
+if all the others handlers didn’t.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>handler</strong> (<a class="reference internal" href="handler.html#erina.Handler" title="erina.Handler"><em>Handler</em></a>) – default handler</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Erina (messenger chabot)</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Bot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="handler.html">Handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="response.html">Response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notify_service.html">Notify service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notification.html">Notification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="attachments.html">Attachments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html">Command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html#args">Args</a></li>
+<li class="toctree-l1"><a class="reference internal" href="speech_recognition.html">SpeechRecognition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="log.html">Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="miscellaneous.html">Miscellaneous</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Erina (messenger chabot)’s documentation!</a></li>
+      <li>Next: <a href="handler.html" title="next chapter">Handler</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Eduardo Becerril <Edo>.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/bot.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

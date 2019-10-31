@@ -1,0 +1,4 @@
+Miscellaneous
+=============
+
+.. automethod:: erina.startMessage

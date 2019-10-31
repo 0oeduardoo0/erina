@@ -1,0 +1,20 @@
+2019-10-22 21:10:57 - INFO - 
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ███████╗██████╗ ██╗███╗   ██╗ █████╗
+    ██╔════╝██╔══██╗██║████╗  ██║██╔══██╗
+    █████╗  ██████╔╝██║██╔██╗ ██║███████║
+    ██╔══╝  ██╔══██╗██║██║╚██╗██║██╔══██║
+    ███████╗██║  ██║██║██║ ╚████║██║  ██║
+    ╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    @ facebook messenger chabot
+    @ coded by Edo <ms7rbeta@gmail.com>
+    @ version 1.0
+    @ license GNU/GPL v3
+
+    This is free software, and you are welcome to redistribute it
+    under certain conditions; see LICENSE for details.
+
+    
+2019-10-22 21:10:57 - INFO - Listening...
+2019-10-22 21:10:57 - INFO - Notification service listening...

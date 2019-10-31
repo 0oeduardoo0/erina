@@ -1,0 +1,306 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>erina._bot &#8212; Erina (messenger chabot)  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for erina._bot</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">fbchat.models</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">fbchat</span> <span class="k">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Message</span><span class="p">,</span> <span class="n">FBchatUserError</span>
+
+<span class="kn">from</span> <span class="nn">._log</span> <span class="k">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">chatlog</span>
+<span class="kn">from</span> <span class="nn">._handler</span> <span class="k">import</span> <span class="n">DefaultHandler</span>
+<span class="kn">from</span> <span class="nn">._response</span> <span class="k">import</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">._attachments</span> <span class="k">import</span> <span class="n">Attachments</span>
+<span class="kn">from</span> <span class="nn">._speech_recognition</span> <span class="k">import</span> <span class="n">SpeechRecognition</span>
+<span class="kn">from</span> <span class="nn">._notify_service</span> <span class="k">import</span> <span class="n">NotifyService</span>
+<span class="kn">from</span> <span class="nn">._environment</span> <span class="k">import</span> <span class="n">Environment</span>
+<span class="kn">from</span> <span class="nn">._miscellaneous</span> <span class="k">import</span> <span class="n">startMessage</span>
+
+
+<div class="viewcode-block" id="Bot"><a class="viewcode-back" href="../../bot.html#erina.Bot">[docs]</a><span class="k">class</span> <span class="nc">Bot</span><span class="p">(</span><span class="n">Client</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Bot class.</span>
+
+<span class="sd">    This is the main class of &#39;erina&#39;, it inherit &#39;fbchat&#39; client class,</span>
+<span class="sd">    this class inits fbchat and erina&#39;s notify service socket. Also it will</span>
+<span class="sd">    handle incoming messages from fbchat and parse the input messages and</span>
+<span class="sd">    it will send them to handlers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Bot.__init__"><a class="viewcode-back" href="../../bot.html#erina.Bot.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize some vars and fbchat login.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            credentials (dict): &#39;user&#39; and &#39;passw&#39; to log into facebook</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">credentials</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;no credentials set&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attachments</span> <span class="o">=</span> <span class="n">Attachments</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">speech_recognition</span> <span class="o">=</span> <span class="n">SpeechRecognition</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">notify_service</span> <span class="o">=</span> <span class="n">NotifyService</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">request_handlers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_request_handler</span> <span class="o">=</span> <span class="n">DefaultHandler</span>
+
+        <span class="n">user</span> <span class="o">=</span> <span class="n">credentials</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span>
+        <span class="n">passw</span> <span class="o">=</span> <span class="n">credentials</span><span class="p">[</span><span class="s1">&#39;passw&#39;</span><span class="p">]</span>
+        <span class="c1"># we get the session cookies from environment vars</span>
+        <span class="n">session_cookies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;session_cookies&quot;</span><span class="p">)</span>
+
+        <span class="c1"># notify_subscriptions is an array of fb user ids, users on this list</span>
+        <span class="c1"># will receive notifications from the notify service</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">notify_subscriptions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;notify_subscriptions&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+
+            <span class="nb">super</span><span class="p">(</span><span class="n">Bot</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">passw</span><span class="p">,</span> <span class="n">session_cookies</span><span class="o">=</span><span class="n">session_cookies</span><span class="p">)</span>
+            <span class="c1"># if logging with cookies failed we need to set the new cookies</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;session_cookies&quot;</span><span class="p">,</span> <span class="nb">super</span><span class="p">(</span><span class="n">Bot</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">getSession</span><span class="p">())</span>
+
+        <span class="k">except</span> <span class="n">FBchatUserError</span><span class="p">:</span>
+
+            <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Login failed&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Bot.setDefaultHandler"><a class="viewcode-back" href="../../bot.html#erina.Bot.setDefaultHandler">[docs]</a>    <span class="k">def</span> <span class="nf">setDefaultHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handler</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set default request handler.</span>
+
+<span class="sd">        Default handler is the handler which handle the input request</span>
+<span class="sd">        if all the others handlers didn&#39;t.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            handler (Handler): default handler</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_request_handler</span> <span class="o">=</span> <span class="n">handler</span></div>
+
+<div class="viewcode-block" id="Bot.addHandler"><a class="viewcode-back" href="../../bot.html#erina.Bot.addHandler">[docs]</a>    <span class="k">def</span> <span class="nf">addHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handler</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Adds a handler</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            handler (Handler): handler to add</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request_handlers</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">handler</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Bot.onNotify"><a class="viewcode-back" href="../../bot.html#erina.Bot.onNotify">[docs]</a>    <span class="k">def</span> <span class="nf">onNotify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">notification</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Function to handle incoming notifies.</span>
+
+<span class="sd">        Notifies are messages to send to users in notify subscription list.</span>
+<span class="sd">        This messages comes from notify service listener.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            type (str): &quot;text&quot; for text messages and &quot;image&quot; for image messages</span>
+<span class="sd">            content (str): message content.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetchAllUsers</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">:</span>
+            <span class="c1"># only notify if user (id) is in subscription list</span>
+            <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">uid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">notify_subscriptions</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">Response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">uid</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+
+                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;notification received </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">notification</span><span class="o">.</span><span class="n">toJsonString</span><span class="p">()))</span>
+                <span class="n">notification</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Bot.onMessage"><a class="viewcode-back" href="../../bot.html#erina.Bot.onMessage">[docs]</a>    <span class="k">def</span> <span class="nf">onMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">author_id</span><span class="p">,</span> <span class="n">message_object</span><span class="p">,</span> <span class="n">thread_id</span><span class="p">,</span> <span class="n">thread_type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handles incoming messages (from facebook).</span>
+
+<span class="sd">        This function its called from fbchat when somebody sends a message.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            author_id: The ID of the author</span>
+<span class="sd">            message_object (Message): The message (As a `Message` object)</span>
+<span class="sd">            thread_id: Thread ID that the message was sent to.</span>
+<span class="sd">            thread_type (ThreadType): Type of thread that the message was sent to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">markAsDelivered</span><span class="p">(</span><span class="n">thread_id</span><span class="p">,</span> <span class="n">message_object</span><span class="o">.</span><span class="n">uid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">markAsRead</span><span class="p">(</span><span class="n">thread_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">author_id</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetchUserInfo</span><span class="p">(</span><span class="n">author_id</span><span class="p">)</span>
+                <span class="n">user_name</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="n">author_id</span><span class="p">]</span><span class="o">.</span><span class="n">first_name</span>
+
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">user_name</span> <span class="o">=</span> <span class="n">author_id</span>
+
+
+            <span class="k">if</span> <span class="n">message_object</span><span class="o">.</span><span class="n">attachments</span><span class="p">:</span>
+
+                <span class="n">reset_attachments_storange_flag</span> <span class="o">=</span> <span class="kc">False</span>
+
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">message_object</span><span class="o">.</span><span class="n">attachments</span><span class="p">:</span>
+                    <span class="n">chatlog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;[&lt;-][</span><span class="si">%s</span><span class="s2">] </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+
+                    <span class="c1"># if the attachment is an image we just put it in</span>
+                    <span class="c1"># attachments (attachments are associated with an specific user)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">attachments</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;audio&quot;</span><span class="p">:</span>
+                        <span class="c1"># we can get a batch of images in the same message</span>
+                        <span class="c1"># so we just reset the attachments storage for the</span>
+                        <span class="c1"># first image of the batch</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">reset_attachments_storange_flag</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">attachments</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">author_id</span><span class="p">)</span>
+                            <span class="n">reset_attachments_storange_flag</span> <span class="o">=</span> <span class="kc">True</span>
+
+                        <span class="n">item</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fetchImageUrl</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">uid</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">attachments</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">author_id</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+                    <span class="c1"># if we have and audio message we try speech to text</span>
+                    <span class="c1"># notice that we dont reset attachment storage cuz</span>
+                    <span class="c1"># come command could need files in the storage to do</span>
+                    <span class="c1"># something</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">speech_recognition</span><span class="o">.</span><span class="n">recognize</span><span class="p">(</span><span class="n">author_id</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+                        <span class="k">except</span><span class="p">:</span>
+                            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&lt;unrecognized_audio&gt;&quot;</span>
+
+                        <span class="c1"># if the recognition success, we set it as incoming message text</span>
+                        <span class="n">message_object</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+
+            <span class="c1"># this flag will be used to know</span>
+            <span class="c1"># when a handler served the request succesfully</span>
+            <span class="c1"># if it is set to True the loop which executes</span>
+            <span class="c1"># handlers will be stoped</span>
+            <span class="n">served</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">Response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">thread_id</span><span class="p">,</span> <span class="n">thread_type</span><span class="p">)</span>
+
+            <span class="n">message_object</span><span class="o">.</span><span class="n">attachments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attachments</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">author_id</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">req_class</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">request_handlers</span><span class="p">:</span>
+                <span class="n">req</span> <span class="o">=</span> <span class="n">req_class</span><span class="p">(</span><span class="n">message_object</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+                <span class="n">served</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">handle</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">served</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">served</span><span class="p">:</span>
+                <span class="n">req</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_request_handler</span><span class="p">(</span><span class="n">message_object</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+                <span class="n">req</span><span class="o">.</span><span class="n">handle</span><span class="p">()</span>
+
+            <span class="n">chatlog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;[&lt;-][</span><span class="si">%s</span><span class="s2">] </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">user_name</span><span class="p">,</span> <span class="n">message_object</span><span class="o">.</span><span class="n">text</span><span class="p">))</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">chatlog</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;[-&gt;][Erina] </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">message_object</span><span class="o">.</span><span class="n">text</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Bot.listen"><a class="viewcode-back" href="../../bot.html#erina.Bot.listen">[docs]</a>    <span class="k">def</span> <span class="nf">listen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Starts fbchat and notify service listeners.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">startMessage</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">notify_service</span><span class="o">.</span><span class="n">setNotifyHandler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onNotify</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">notify_service</span><span class="o">.</span><span class="n">listen</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Bot</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">listen</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Erina (messenger chabot)</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../bot.html">Bot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../handler.html">Handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../response.html">Response</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notify_service.html">Notify service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notification.html">Notification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../attachments.html">Attachments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../input.html">Command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../input.html#args">Args</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../speech_recognition.html">SpeechRecognition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../log.html">Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../miscellaneous.html">Miscellaneous</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Eduardo Becerril <Edo>.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

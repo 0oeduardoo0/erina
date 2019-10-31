@@ -1,0 +1,7 @@
+Pydub
+SpeechRecognition
+bs4
+hikvisionapi
+fbchat
+unidecode
+opencv-python
